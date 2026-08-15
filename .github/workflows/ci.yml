@@ -25,4 +25,8 @@ jobs:
       - run: python examples/minimal/create_reference.py
       - run: ui-rebuilder build examples/minimal/minimal.job.yaml --output Output/minimal --skip-openpencil
       - run: ui-rebuilder validate Output/minimal
+      - run: python examples/multi-project/create_reference.py
+      - run: ui-rebuilder workspace plan examples/multi-project/workspace.yaml
+      - run: ui-rebuilder workspace build examples/multi-project/workspace.yaml --max-workers 3 --skip-openpencil
+      - run: ui-rebuilder workspace validate examples/multi-project/workspace.yaml
       - run: python scripts/bootstrap.py --profile all --install-comfy-python --dry-run

@@ -13,6 +13,7 @@ SCHEMAS = {
     "style-profile": REPO_ROOT / "schemas" / "style-profile.schema.json",
     "uiir": REPO_ROOT / "schemas" / "uiir.schema.json",
     "asset-manifest": REPO_ROOT / "schemas" / "asset-manifest.schema.json",
+    "workspace": REPO_ROOT / "schemas" / "workspace.schema.json",
 }
 
 

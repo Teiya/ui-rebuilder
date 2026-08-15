@@ -217,7 +217,69 @@ python scripts/queue_comfyui_workflow.py `
 
 A controlled-generation result remains a candidate. Record its model, seed, and input hashes, and require human review before selection.
 
-## 9. Troubleshooting
+## 9. Multi-project and multi-style workspaces
+
+A workspace keeps the shared toolchain separate from consumer project facts. Project roots may live outside the UI Rebuilder checkout and may use absolute paths or paths relative to the workspace file.
+
+```yaml
+schemaVersion: 1
+id: studio-workspace
+outputRoot: ./Output
+maxWorkers: 3
+defaults:
+  skipOpenPencil: false
+  exportOpenPencilPreview: true
+projects:
+  - id: project-a
+    root: ../project-a
+    styles:
+      - id: ink
+        profile: design/styles/ink.json
+      - id: dark
+        profile: design/styles/dark.json
+    tasks:
+      - id: training
+        job: design/jobs/training.job.yaml
+        styles: [ink, dark]
+  - id: project-b
+    root: ../project-b
+    styles:
+      - id: neon
+        profile: design/styles/neon.json
+    tasks:
+      - id: dashboard
+        job: design/jobs/dashboard.job.yaml
+        styles: [neon]
+```
+
+Preflight the matrix:
+
+```powershell
+ui-rebuilder workspace plan workspace.yaml
+```
+
+Build entries concurrently and validate each package:
+
+```powershell
+ui-rebuilder workspace build workspace.yaml --max-workers 3
+```
+
+Every run writes `workspace-build.json` under `outputRoot`, including success/failure counts, resolved inputs, Style Profiles, and outputs. One task failure does not discard successful task results, but the command exits with failure.
+
+Use repeatable selectors to build part of the matrix:
+
+```powershell
+ui-rebuilder workspace build workspace.yaml `
+  --project project-a `
+  --style ink `
+  --task training
+```
+
+The default directory is `outputRoot/projectId/styleId/taskId/`. A task may use a relative output template containing `{project}`, `{style}`, and `{task}`, but it cannot use an absolute path, escape through `..`, or collide with another matrix entry.
+
+OpenPencil builds may run concurrently; do not run `bootstrap.py` concurrently. ComfyUI remains an independent queue service: projects may submit jobs together, while generation on one GPU is normally serialized.
+
+## 10. Troubleshooting
 
 ### `doctor` cannot find OpenPencil
 

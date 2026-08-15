@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "dark",
+  "status": "approved",
+  "tokens": {
+    "colors": {
+      "surface.paper": "#211E2A",
+      "text.primary": "#EEE8F6",
+      "border.ornament": "#9B83B5",
+      "action.primary": "#55436E"
+    },
+    "spacing": {"sm": 8, "md": 16, "lg": 24},
+    "typography": {"primary": {"family": "Inter"}},
+    "radius": {"panel": 8, "control": 5},
+    "stroke": {"default": 1}
+  },
+  "reconstruction": {
+    "methodPriority": ["extract", "repair", "controlled-generation"],
+    "dynamicContent": ["text", "value"]
+  }
+}

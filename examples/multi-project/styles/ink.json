@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "ink",
+  "status": "approved",
+  "tokens": {
+    "colors": {
+      "surface.paper": "#F7F2E8",
+      "text.primary": "#34322D",
+      "border.ornament": "#B79A63",
+      "action.primary": "#426E68"
+    },
+    "spacing": {"sm": 8, "md": 16, "lg": 24},
+    "typography": {"primary": {"family": "Inter"}},
+    "radius": {"panel": 10, "control": 6},
+    "stroke": {"default": 1}
+  },
+  "reconstruction": {
+    "methodPriority": ["extract", "repair", "controlled-generation"],
+    "dynamicContent": ["text", "value"]
+  }
+}

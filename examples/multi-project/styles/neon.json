@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "neon",
+  "status": "approved",
+  "tokens": {
+    "colors": {
+      "surface.paper": "#111B2E",
+      "text.primary": "#DDEBFF",
+      "border.ornament": "#49CFFF",
+      "action.primary": "#1678B8"
+    },
+    "spacing": {"sm": 6, "md": 12, "lg": 20},
+    "typography": {"primary": {"family": "Inter"}},
+    "radius": {"panel": 2, "control": 2},
+    "stroke": {"default": 1}
+  },
+  "reconstruction": {
+    "methodPriority": ["extract", "repair", "controlled-generation"],
+    "dynamicContent": ["text", "value"]
+  }
+}
