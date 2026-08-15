@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ui-rebuilder:schema:asset-manifest:v1",
+  "title": "UI Rebuilder asset manifest",
+  "type": "object",
+  "required": ["schemaVersion", "jobId", "referenceResolution", "assets"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "jobId": {"type": "string"},
+    "referenceResolution": {
+      "type": "array",
+      "prefixItems": [{"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}],
+      "items": false
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "method", "source", "output", "sha256", "scaling", "pixelSize"],
+        "properties": {
+          "id": {"type": "string"},
+          "method": {"enum": ["extracted", "repaired", "generated", "vector", "runtime"]},
+          "source": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string"},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            },
+            "additionalProperties": true
+          },
+          "sourceBox": {"type": "array", "minItems": 4, "maxItems": 4},
+          "output": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "scaling": {"enum": ["none", "uniform", "nine-slice", "tile"]},
+          "pixelSize": {
+            "type": "array",
+            "prefixItems": [{"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}],
+            "items": false
+          },
+          "alpha": {
+            "type": "object",
+            "required": ["min", "max", "hasTransparency"],
+            "properties": {
+              "min": {"type": "integer", "minimum": 0, "maximum": 255},
+              "max": {"type": "integer", "minimum": 0, "maximum": 255},
+              "hasTransparency": {"type": "boolean"}
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

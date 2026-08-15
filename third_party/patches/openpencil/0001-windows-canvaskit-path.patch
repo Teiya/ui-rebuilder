@@ -1,0 +1,18 @@
+diff --git a/packages/core/src/io/formats/raster/headless.ts b/packages/core/src/io/formats/raster/headless.ts
+index 6107cb60..2650d9ba 100644
+--- a/packages/core/src/io/formats/raster/headless.ts
++++ b/packages/core/src/io/formats/raster/headless.ts
+@@ -12,9 +12,11 @@ let cachedRenderer: SkiaRenderer | null = null
+ export async function initCanvasKit(): Promise<CanvasKit> {
+   if (cachedCk) return cachedCk
+   const CanvasKitInit = (await import('canvaskit-wasm/full')).default
++  const { dirname, join } = await import('node:path')
++  const { fileURLToPath } = await import('node:url')
+   const ckPath = import.meta.resolve('canvaskit-wasm/full')
+-  const binDir = new URL('.', ckPath).pathname
+-  cachedCk = await CanvasKitInit({ locateFile: (file: string) => binDir + file })
++  const binDir = dirname(fileURLToPath(ckPath))
++  cachedCk = await CanvasKitInit({ locateFile: (file: string) => join(binDir, file) })
+   return cachedCk
+ }
+ 

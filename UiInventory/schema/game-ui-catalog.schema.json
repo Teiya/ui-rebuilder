@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ui-rebuilder:schema:game-ui-catalog:v1",
+  "title": "Game UI Catalog",
+  "description": "Portable retrieval catalog distilled from project-local game UI inventory data.",
+  "type": "object",
+  "required": [
+    "schema",
+    "sourceSchema",
+    "sceneName",
+    "scenePath",
+    "theme",
+    "generatedAtUtc",
+    "sourceInventoryPath",
+    "supportedFamilies",
+    "families"
+  ],
+  "properties": {
+    "schema": {
+      "const": "game-ui-catalog/v1"
+    },
+    "sourceSchema": {
+      "type": "string"
+    },
+    "sceneName": {
+      "type": "string"
+    },
+    "scenePath": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "string"
+    },
+    "generatedAtUtc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sourceInventoryPath": {
+      "type": "string"
+    },
+    "supportedFamilies": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "button",
+          "popup",
+          "background",
+          "tip"
+        ]
+      }
+    },
+    "families": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/family"
+      }
+    }
+  },
+  "$defs": {
+    "family": {
+      "type": "object",
+      "required": [
+        "family",
+        "description",
+        "templateCount",
+        "templates"
+      ],
+      "properties": {
+        "family": { "type": "string" },
+        "description": { "type": "string" },
+        "templateCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/template"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "template": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "role",
+        "sourcePanelPath",
+        "screenType",
+        "panelKind",
+        "score",
+        "requiredTags",
+        "compositionPatterns",
+        "keyNodeNames",
+        "buttonCount",
+        "textCount",
+        "imageCount",
+        "inputCount",
+        "layoutGroupCount"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "sourcePanelPath": { "type": "string" },
+        "screenType": { "type": "string" },
+        "panelKind": { "type": "string" },
+        "score": { "type": "integer" },
+        "requiredTags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "compositionPatterns": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "keyNodeNames": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "buttonCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "textCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "imageCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inputCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "layoutGroupCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

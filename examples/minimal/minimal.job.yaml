@@ -1,0 +1,52 @@
+schemaVersion: 1
+id: minimal-public-example
+name: Minimal public example
+reference:
+  path: reference.png
+styleProfile: style.json
+layout:
+  kind: inline
+  screen:
+    name: Screen/Example
+    type: frame
+    bounds: [0, 0, 320, 180]
+  nodes:
+    - name: Panel/Main
+      type: frame
+      parent: Screen/Example
+      bounds: [16, 16, 288, 148]
+    - name: Title/Example
+      type: text
+      parent: Panel/Main
+      bounds: [24, 16, 240, 32]
+      text: Editable UI example
+    - name: Text/Description
+      type: text
+      parent: Panel/Main
+      bounds: [24, 54, 240, 30]
+      text: Deterministic structure and reusable assets
+    - name: Button/Primary
+      type: frame
+      parent: Panel/Main
+      bounds: [64, 104, 160, 36]
+    - name: Label/Button
+      type: text
+      parent: Button/Primary
+      bounds: [20, 4, 120, 28]
+      text: Continue
+nodeOverrides:
+  Title/Example:
+    style: {fontSize: 20, textAlignHorizontal: LEFT}
+  Text/Description:
+    style: {fontSize: 12, textAlignHorizontal: LEFT}
+  Label/Button:
+    style: {fontSize: 14, textAlignHorizontal: CENTER, textColor: "#FFFDF6"}
+assets:
+  - id: minimal_primary_action
+    sourceBox: [80, 120, 160, 36]
+    method: extracted
+    role: primary-action-shell
+    targetNode: Button/Primary
+    targetSize: [160, 36]
+    scaling: none
+outputs: [package, openpencil-fig]

@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "policy": "manual-download-license-acceptance-required",
+  "models": [
+    {
+      "id": "animagine-xl-4-opt",
+      "profiles": ["generation", "all"],
+      "file": "models/checkpoints/animagine-xl-4.0-opt.safetensors",
+      "bytes": 6938350040,
+      "sha256": "6327eca98bfb6538dd7a4edce22484a1bbc57a8cff6b11d075d40da1afb847ac",
+      "source": "https://huggingface.co/cagliostrolab/animagine-xl-4.0/blob/main/animagine-xl-4.0-opt.safetensors",
+      "license": "OpenRAIL++",
+      "automaticDownload": false
+    },
+    {
+      "id": "game-icon-institute-v4xl",
+      "profiles": ["generation", "all"],
+      "file": "models/checkpoints/gameIconInstitute_v4XL.safetensors",
+      "bytes": 6938043126,
+      "sha256": "ff9e1fb3089d032b6be3e8700cddd8d408b020e4421b53c060fd36f146a4d375",
+      "source": "https://civitai.com/models/47800/game-icon-institute",
+      "license": "CHECK-MODEL-PAGE",
+      "automaticDownload": false
+    },
+    {
+      "id": "control-lora-canny-rank128",
+      "profiles": ["generation", "all"],
+      "file": "models/controlnet/control-lora-canny-rank128.safetensors",
+      "bytes": 395733680,
+      "sha256": "56389dbb245ca44de91d662529bd4298abc55ce2318f60bc19454fb72ff68247",
+      "source": "https://huggingface.co/stabilityai/control-lora/tree/main/control-LoRAs-rank128",
+      "license": "CHECK-MODEL-CARD",
+      "automaticDownload": false
+    },
+    {
+      "id": "ip-adapter-sdxl-vit-h",
+      "profiles": ["generation", "all"],
+      "file": "models/ipadapter/ip-adapter_sdxl_vit-h.safetensors",
+      "bytes": 698391064,
+      "sha256": "ebf05d918348aec7abb02a5e9ecef77e0aaea6914a5c4ea13f50d45eb1681831",
+      "source": "https://huggingface.co/h94/IP-Adapter/blob/main/sdxl_models/ip-adapter_sdxl_vit-h.safetensors",
+      "license": "Apache-2.0",
+      "automaticDownload": false
+    },
+    {
+      "id": "clip-vit-h-14",
+      "profiles": ["generation", "all"],
+      "file": "models/clip_vision/CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors",
+      "bytes": 2528373448,
+      "sha256": "6ca9667da1ca9e0b0f75e46bb030f7e011f44f86cbfb8d5a36590fcd7507b030",
+      "source": "https://huggingface.co/h94/IP-Adapter/tree/main/sdxl_models/image_encoder",
+      "license": "CHECK-MODEL-CARD",
+      "automaticDownload": false
+    },
+    {
+      "id": "sam2-1-hiera-large-fp16",
+      "profiles": ["recovery", "all"],
+      "file": "models/sam2/sam2.1_hiera_large-fp16.safetensors",
+      "bytes": 448999828,
+      "sha256": "278af5296fcc153aa94645a4981e93fe8b7a936a9fa27dbd71e8c850df6d7038",
+      "source": "https://huggingface.co/fofr/comfyui/blob/main/sam2/sam2.1_hiera_large-fp16.safetensors",
+      "license": "CHECK-MODEL-CARD",
+      "automaticDownload": false
+    },
+    {
+      "id": "big-lama",
+      "profiles": ["recovery", "all"],
+      "file": "custom_nodes/comfyui-lama-remover/ckpts/big-lama.pt",
+      "bytes": 205669692,
+      "sha256": "344c77bbcb158f17dd143070d1e789f38a66c04202311ae3a258ef66667a9ea9",
+      "source": "https://github.com/Layer-norm/comfyui-lama-remover#install",
+      "license": "CHECK-UPSTREAM",
+      "automaticDownload": false
+    }
+  ]
+}

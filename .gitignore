@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+dist/
+build/
+*.egg-info/
+.ui-rebuilder-cache/
+Output/
+examples/minimal/reference.png
+
+# Downloaded third-party source, runtimes, models, and caches.
+# Only the lock manifests, documentation, and reviewed patches are committed.
+third_party/*
+!third_party/README.md
+!third_party/tools.lock.json
+!third_party/models.lock.json
+!third_party/patches/
+!third_party/patches/**

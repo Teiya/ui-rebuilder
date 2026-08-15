@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ui-rebuilder:schema:game-ui-recipe:v1",
+  "title": "Game UI Recipe",
+  "description": "Portable prompt-to-template selection result for reusable game UI generation.",
+  "type": "object",
+  "required": [
+    "schema",
+    "prompt",
+    "id",
+    "family",
+    "sceneName",
+    "theme",
+    "generatedAtUtc",
+    "selectedTemplates",
+    "slots",
+    "notes"
+  ],
+  "properties": {
+    "schema": {
+      "const": "game-ui-recipe/v1"
+    },
+    "prompt": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "family": {
+      "enum": [
+        "button",
+        "popup",
+        "background",
+        "tip"
+      ]
+    },
+    "sceneName": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "string"
+    },
+    "generatedAtUtc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "selectedTemplates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/templateRef"
+      }
+    },
+    "content": {
+      "$ref": "#/$defs/content"
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/slot"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "templateRef": {
+      "type": "object",
+      "required": [
+        "family",
+        "templateId",
+        "templateName",
+        "role",
+        "sourcePanelPath",
+        "keyNodeNames"
+      ],
+      "properties": {
+        "family": { "type": "string" },
+        "templateId": { "type": "string" },
+        "templateName": { "type": "string" },
+        "role": { "type": "string" },
+        "sourcePanelPath": { "type": "string" },
+        "keyNodeNames": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "titleText": { "type": "string" },
+        "bodyText": { "type": "string" },
+        "primaryActionText": { "type": "string" },
+        "secondaryActionText": { "type": "string" },
+        "closeActionText": { "type": "string" },
+        "buttonLabel": { "type": "string" },
+        "buttonSubLabel": { "type": "string" },
+        "tipText": { "type": "string" },
+        "loadingText": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "slot": {
+      "type": "object",
+      "required": [
+        "slot",
+        "required",
+        "expectedTags"
+      ],
+      "properties": {
+        "slot": { "type": "string" },
+        "required": { "type": "boolean" },
+        "expectedTags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

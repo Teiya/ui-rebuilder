@@ -1,0 +1,14 @@
+* text=auto
+*.py text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.patch text eol=lf
+*.png binary
+*.jpg binary
+*.fig binary
+*.safetensors binary
+*.ckpt binary
+*.pt binary
+*.pth binary

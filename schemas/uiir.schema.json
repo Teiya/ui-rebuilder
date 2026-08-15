@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ui-rebuilder:schema:uiir:v1",
+  "title": "UI Rebuilder intermediate representation",
+  "type": "object",
+  "required": ["schemaVersion", "id", "referenceResolution", "source", "styleProfile", "pages"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "id": {"type": "string", "minLength": 1},
+    "name": {"type": "string"},
+    "referenceResolution": {
+      "type": "array",
+      "prefixItems": [{"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}],
+      "items": false
+    },
+    "source": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+      "additionalProperties": true
+    },
+    "styleProfile": {
+      "type": "object",
+      "required": ["id", "sha256"],
+      "properties": {"id": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+      "additionalProperties": true
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "nodes"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "nodes": {"type": "array", "items": {"$ref": "#/$defs/node"}}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["id", "name", "type", "parent", "bounds", "provenance"],
+      "properties": {
+        "id": {"type": "string"},
+        "name": {"type": "string"},
+        "type": {"enum": ["frame", "component", "instance", "rectangle", "ellipse", "text", "image"]},
+        "parent": {"type": ["string", "null"]},
+        "bounds": {
+          "type": "array",
+          "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number", "exclusiveMinimum": 0}, {"type": "number", "exclusiveMinimum": 0}],
+          "items": false
+        },
+        "absoluteBounds": {
+          "type": "array",
+          "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}, {"type": "number"}],
+          "items": false
+        },
+        "role": {"type": "string"},
+        "dynamic": {"type": "boolean"},
+        "text": {"type": "string"},
+        "layout": {"type": "object"},
+        "style": {"type": "object"},
+        "asset": {"type": ["object", "null"]},
+        "provenance": {
+          "type": "object",
+          "required": ["method", "confidence", "reviewRequired"],
+          "properties": {
+            "method": {"enum": ["layout-authority", "manual", "detected", "extracted", "repaired", "generated", "vector", "runtime"]},
+            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+            "reviewRequired": {"type": "boolean"}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
