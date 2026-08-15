@@ -113,6 +113,49 @@ ui-rebuilder validate Output\screen
 
 Non-empty output directories are protected by default. Use `--force` only when the existing output may be replaced.
 
+## Parallel multi-project and multi-style builds
+
+Use one `workspace.yaml` to declare consumer projects, allowed style profiles, and the task matrix:
+
+```yaml
+schemaVersion: 1
+id: studio-workspace
+outputRoot: Output
+maxWorkers: 3
+projects:
+  - id: cultivation
+    root: ../cultivation-project
+    styles:
+      - id: ink
+        profile: design/styles/ink.json
+      - id: dark
+        profile: design/styles/dark.json
+    tasks:
+      - id: training
+        job: design/jobs/training.job.yaml
+        styles: [ink, dark]
+```
+
+```powershell
+# Resolve the matrix and check paths/output collisions without building
+ui-rebuilder workspace plan workspace.yaml
+
+# Run up to three independent builds and validate every output
+ui-rebuilder workspace build workspace.yaml --max-workers 3
+
+# Revalidate all existing outputs
+ui-rebuilder workspace validate workspace.yaml
+
+# Select one project and style
+ui-rebuilder workspace build workspace.yaml --project cultivation --style ink
+```
+
+The default output is `outputRoot/project/style/task`. Preflight requires unique project/task/style identifiers, requires the workspace style id to match the Style Profile id, and rejects duplicate outputs or paths escaping `outputRoot`. Every UIIR and build report records the workspace, project, style, task, and style hash.
+
+A Style Profile constrains structured-node colors, typography, and spacing; it does not repaint pixels already extracted from the reference. Truly different panel, button, or icon art must come from style-specific assets/Catalogs or separate controlled-generation jobs.
+
+See the runnable [multi-project example](examples/multi-project).
+
 ## Inputs
 
 A reconstruction job normally contains:
@@ -177,6 +220,7 @@ The consumer project continues to own references, fonts, art direction, interact
 - [Full workflow](docs/workflow.en.md)
 - [Architecture and boundaries](docs/architecture.md)
 - [Migration roadmap](docs/migration.md)
+- [Multi-project and multi-style example](examples/multi-project)
 - [ComfyUI workflow](workflows/comfyui/README.md)
 - [Third-party installation](third_party/README.md)
 - [Public repository checklist](docs/publication.md)

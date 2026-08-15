@@ -10,6 +10,7 @@ build/
 .ui-rebuilder-cache/
 Output/
 examples/minimal/reference.png
+examples/multi-project/reference.png
 
 # Downloaded third-party source, runtimes, models, and caches.
 # Only the lock manifests, documentation, and reviewed patches are committed.

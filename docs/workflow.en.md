@@ -99,3 +99,11 @@ Fix the responsible layer: layout issues in UIIR/recipe, raster issues in extrac
 After approval, the consumer project uses UIIR, the asset manifest, `.fig`, and state pages to build the runtime hierarchy. Revalidate anchors, localization, state transitions, import settings, nine-slice borders, and design/preview/runtime conformance.
 
 UI Rebuilder currently produces engine-neutral handoff artifacts. Automatic Unity uGUI Prefab assembly remains a future adapter.
+
+## 11. Multi-project and multi-style isolation
+
+Workspace builds share UI Rebuilder, OpenPencil, and ComfyUI while keeping consumer facts isolated. Every matrix entry is uniquely identified by `(projectId, styleId, taskId)` and writes to its own output directory.
+
+The Style Profile file id must match the workspace declaration, and UIIR also records the profile hash. Two projects may therefore use the same task name without implicitly sharing style or output state.
+
+When a consumer intentionally shares a Catalog across projects, retrieval should use `projectId`, `styleId`, and component family together. A generic tool must not select cross-style components from family names such as `button` or `panel` alone.

@@ -1,0 +1,40 @@
+schemaVersion: 1
+id: shared-screen
+name: Shared multi-style screen
+reference:
+  path: reference.png
+styleProfile: styles/ink.json
+layout:
+  kind: inline
+  screen:
+    name: Screen/Shared
+    type: frame
+    bounds: [0, 0, 320, 180]
+  nodes:
+    - name: Panel/Main
+      type: frame
+      parent: Screen/Shared
+      bounds: [16, 16, 288, 148]
+    - name: Title/Main
+      type: text
+      parent: Panel/Main
+      bounds: [16, 16, 180, 28]
+      text: Multi-style UI
+    - name: Button/Primary
+      type: frame
+      parent: Panel/Main
+      bounds: [64, 104, 160, 36]
+    - name: Label/Primary
+      type: text
+      parent: Button/Primary
+      bounds: [48, 4, 64, 28]
+      text: Build
+assets:
+  - id: primary-action-shell
+    sourceBox: [80, 120, 160, 36]
+    method: extracted
+    role: primary-action-shell
+    targetNode: Button/Primary
+    targetSize: [160, 36]
+    scaling: none
+outputs: [package, openpencil-fig]

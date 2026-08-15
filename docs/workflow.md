@@ -107,3 +107,11 @@ Recipe 连接布局和组件材料，记录组件模板、slot 绑定、文字�
 通过验收后，消费项目根据 UIIR、资产清单、`.fig` 和状态页建立引擎层级，并再次验证锚点、本地化、状态切换、图片导入、九宫格边界及设计/预览/运行时三向一致性。
 
 UI Rebuilder 当前输出引擎无关交付物；Unity uGUI Prefab 自动装配属于后续适配器范围。
+
+## 11. 多项目与多风格隔离
+
+工作区构建共享 UI Rebuilder、OpenPencil 和 ComfyUI，但不会共享消费项目事实。每个矩阵条目由 `(projectId, styleId, taskId)` 唯一标识，并写入独立输出目录。
+
+Style Profile 的文件 ID 必须与工作区声明一致；UIIR 同时记录风格文件哈希。因此两个项目即使拥有同名任务，也不会在未显式声明的情况下混用风格或输出。
+
+跨项目复用 Catalog 时，消费项目应把 `projectId`、`styleId` 和组件 family 作为联合检索条件。通用工具不应仅依据 `button`、`panel` 等 family 名称跨风格选择组件。

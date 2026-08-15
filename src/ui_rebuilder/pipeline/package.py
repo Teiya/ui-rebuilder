@@ -120,6 +120,8 @@ def build_package(
     job_path: Path,
     output_override: Path | None = None,
     *,
+    style_override: Path | None = None,
+    build_context: dict[str, str] | None = None,
     force: bool = False,
     skip_openpencil: bool = False,
     openpencil_repo: Path | None = None,
@@ -129,7 +131,7 @@ def build_package(
     job_dir = job_path.parent
     job = load_data(job_path)
     validate_data("reconstruction-job", job)
-    style_path = resolve_relative(job_dir, job["styleProfile"])
+    style_path = style_override.resolve() if style_override is not None else resolve_relative(job_dir, job["styleProfile"])
     style = load_data(style_path)
     validate_data("style-profile", style)
 
@@ -208,7 +210,11 @@ def build_package(
             "status": style["status"],
         },
         "pages": [{"id": "20-visual", "name": "20_Visual", "nodes": nodes}],
-        "metadata": {"job": str(job_path), "layoutSource": layout_source},
+        "metadata": {
+            "job": str(job_path),
+            "layoutSource": layout_source,
+            **({"workspace": build_context} if build_context else {}),
+        },
     }
     text_fallback_report = build_text_fallbacks(job, job_dir, uiir, output_root)
     validate_data("uiir", uiir)
@@ -240,6 +246,7 @@ def build_package(
         "assetPreview": asset_preview.relative_to(output_root).as_posix() if asset_preview else None,
         "openpencil": openpencil_report,
         "status": "complete-fig-pending-visual-approval" if openpencil_report else "built-pending-visual-approval",
+        **({"context": build_context} if build_context else {}),
     }
     write_json(output_root / "Reports" / "build.json", report)
     write_json(

@@ -1,0 +1,28 @@
+schemaVersion: 1
+id: public-multi-project-example
+outputRoot: ../../Output/multi-project
+maxWorkers: 3
+defaults:
+  skipOpenPencil: false
+  exportOpenPencilPreview: true
+projects:
+  - id: cultivation-demo
+    root: .
+    styles:
+      - id: ink
+        profile: styles/ink.json
+      - id: dark
+        profile: styles/dark.json
+    tasks:
+      - id: training
+        job: screen.job.yaml
+        styles: [ink, dark]
+  - id: space-demo
+    root: .
+    styles:
+      - id: neon
+        profile: styles/neon.json
+    tasks:
+      - id: dashboard
+        job: screen.job.yaml
+        styles: [neon]

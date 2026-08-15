@@ -224,7 +224,75 @@ python scripts/queue_comfyui_workflow.py `
 
 受控生成结果仍是候选资产，必须记录模型、种子、输入哈希并经过人工选择，不能静默覆盖提取资产。
 
-## 9. 常见问题
+## 9. 多项目与多风格工作区
+
+工作区文件将共享工具链与消费项目事实分开。项目根目录可以在 UI Rebuilder 仓库之外，并可使用绝对路径或相对工作区文件的路径。
+
+```yaml
+schemaVersion: 1
+id: studio-workspace
+outputRoot: ./Output
+maxWorkers: 3
+defaults:
+  skipOpenPencil: false
+  exportOpenPencilPreview: true
+projects:
+  - id: project-a
+    root: ../project-a
+    styles:
+      - id: ink
+        profile: design/styles/ink.json
+      - id: dark
+        profile: design/styles/dark.json
+    tasks:
+      - id: training
+        job: design/jobs/training.job.yaml
+        styles: [ink, dark]
+  - id: project-b
+    root: ../project-b
+    styles:
+      - id: neon
+        profile: design/styles/neon.json
+    tasks:
+      - id: dashboard
+        job: design/jobs/dashboard.job.yaml
+        styles: [neon]
+```
+
+先检查构建矩阵：
+
+```powershell
+ui-rebuilder workspace plan workspace.yaml
+```
+
+并行构建并逐项验证：
+
+```powershell
+ui-rebuilder workspace build workspace.yaml --max-workers 3
+```
+
+每次运行会在 `outputRoot` 写入 `workspace-build.json`，其中汇总成功、失败、实际输入、Style Profile 和输出位置。单个任务失败不会覆盖其他任务结果，进程最终以失败状态退出。
+
+使用选择器运行部分矩阵；同一选项可以重复：
+
+```powershell
+ui-rebuilder workspace build workspace.yaml `
+  --project project-a `
+  --style ink `
+  --task training
+```
+
+默认目录是：
+
+```text
+outputRoot/projectId/styleId/taskId/
+```
+
+任务可以使用带 `{project}`、`{style}`、`{task}` 的相对输出模板，但不能使用绝对路径、`..` 逃逸或让两个矩阵条目写入同一目录。
+
+OpenPencil 构建可以并行；`bootstrap.py` 不应并行执行。ComfyUI 当前是独立队列服务，多个项目可以同时提交任务，但单 GPU 通常串行执行生成。
+
+## 10. 常见问题
 
 ### `doctor` 找不到 OpenPencil
 

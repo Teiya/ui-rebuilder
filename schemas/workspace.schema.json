@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ui-rebuilder:schema:workspace:v1",
+  "title": "UI Rebuilder multi-project workspace",
+  "type": "object",
+  "required": ["schemaVersion", "id", "outputRoot", "projects"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+    "outputRoot": {"type": "string", "minLength": 1},
+    "maxWorkers": {"type": "integer", "minimum": 1, "maximum": 32},
+    "defaults": {
+      "type": "object",
+      "properties": {
+        "skipOpenPencil": {"type": "boolean"},
+        "exportOpenPencilPreview": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "projects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/project"}
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "style": {
+      "type": "object",
+      "required": ["id", "profile"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "profile": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "task": {
+      "type": "object",
+      "required": ["id", "job", "styles"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "job": {"type": "string", "minLength": 1},
+        "styles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "output": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Relative template below outputRoot. Supports {project}, {style}, and {task}."
+        },
+        "enabled": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "project": {
+      "type": "object",
+      "required": ["id", "root", "styles", "tasks"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "root": {"type": "string", "minLength": 1},
+        "styles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/style"}
+        },
+        "tasks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/task"}
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

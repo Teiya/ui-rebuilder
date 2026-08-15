@@ -15,6 +15,8 @@ reference image + style profile + job hints
 
 `UIIR` is the only canonical reconstruction structure. `.fig` and runtime recipes are derived artifacts.
 
+For multi-project operation, `workspace.yaml` is an orchestration layer rather than another design source. It expands `(project, style, task)` entries into independent calls to the same canonical job-to-UIIR pipeline, enforces isolated output paths, and aggregates build/validation reports.
+
 ## Data layers
 
 1. `spec`: what the requested screen must communicate and which states exist.
@@ -50,3 +52,7 @@ The adapter writes five canonical pages: foundations, wireframe, visual, states,
 ## Downloaded tool boundary
 
 OpenPencil, ComfyUI, ComfyUI custom nodes, Python environments, and model weights live under the Git-ignored `third_party/` workspace after bootstrap. The repository commits only immutable source locks, model identity records, license/source links, and reviewed patches. ComfyUI is divided into recovery and controlled-generation profiles so `.fig` users do not need to install GPU dependencies.
+
+## Workspace concurrency boundary
+
+Independent package builds may run concurrently because each entry writes to `outputRoot/project/style/task` and uses its own OpenPencil temporary workspace. Tool installation and upgrades are intentionally outside this pool and must remain serial. ComfyUI execution is also outside the package builder: API requests may be queued by multiple projects, but GPU scheduling is owned by the ComfyUI service.

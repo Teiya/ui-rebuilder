@@ -113,6 +113,49 @@ ui-rebuilder validate Output\screen
 
 非空输出目录默认不会被覆盖；确认需要重建时使用 `--force`。
 
+## 多项目与多风格并行构建
+
+使用一个 `workspace.yaml` 声明多个消费项目、每个项目允许使用的风格，以及需要展开的任务矩阵：
+
+```yaml
+schemaVersion: 1
+id: studio-workspace
+outputRoot: Output
+maxWorkers: 3
+projects:
+  - id: cultivation
+    root: ../cultivation-project
+    styles:
+      - id: ink
+        profile: design/styles/ink.json
+      - id: dark
+        profile: design/styles/dark.json
+    tasks:
+      - id: training
+        job: design/jobs/training.job.yaml
+        styles: [ink, dark]
+```
+
+```powershell
+# 只解析矩阵、检查路径与输出冲突
+ui-rebuilder workspace plan workspace.yaml
+
+# 最多并行三个独立构建，并自动验证每个输出
+ui-rebuilder workspace build workspace.yaml --max-workers 3
+
+# 重新验证已生成的全部输出
+ui-rebuilder workspace validate workspace.yaml
+
+# 只构建指定项目和风格
+ui-rebuilder workspace build workspace.yaml --project cultivation --style ink
+```
+
+默认输出为 `outputRoot/project/style/task`。启动构建前会校验项目、任务和风格 ID 的唯一性，要求 workspace 风格 ID 与 Style Profile ID 一致，并拒绝重复或逃逸出 `outputRoot` 的输出路径。每个 UIIR 和构建报告都会记录 workspace、project、style、task 以及风格哈希。
+
+Style Profile 约束结构化节点的颜色、字体和间距，但不会自动重绘原稿中已经提取的像素。真正不同风格的面板、按钮或图标仍应由各项目提供独立资产/Catalog，或使用独立的受控生成任务。
+
+可运行示例见 [多项目多风格示例](examples/multi-project)。
+
 ## 输入
 
 一个任务通常包含：
@@ -177,6 +220,7 @@ UI Rebuilder 不负责：
 - [完整工作流程](docs/workflow.md)
 - [架构与数据边界](docs/architecture.md)
 - [后续迁移计划](docs/migration.md)
+- [多项目多风格示例](examples/multi-project)
 - [ComfyUI 工作流](workflows/comfyui/README.md)
 - [第三方安装与目录](third_party/README.md)
 - [公开仓库检查清单](docs/publication.md)
