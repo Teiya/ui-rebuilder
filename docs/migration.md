@@ -25,6 +25,8 @@
 
 ## M3: controlled generation
 
+Status and acceptance detail: [Controlled generation and provenance improvement plan](controlled-generation-improvements.md) (Chinese, recorded 2026-10-12; pending implementation).
+
 - ComfyUI and ImageGen adapters;
 - reusable workflow templates and parameter scans;
 - model/seed/hash records;

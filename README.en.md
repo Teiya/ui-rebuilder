@@ -220,6 +220,7 @@ The consumer project continues to own references, fonts, art direction, interact
 - [Full workflow](docs/workflow.en.md)
 - [Architecture and boundaries](docs/architecture.md)
 - [Migration roadmap](docs/migration.md)
+- [Controlled generation and provenance improvement plan](docs/controlled-generation-improvements.md) (Chinese, pending implementation)
 - [Multi-project and multi-style example](examples/multi-project)
 - [ComfyUI workflow](workflows/comfyui/README.md)
 - [Third-party installation](third_party/README.md)
