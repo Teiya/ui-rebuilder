@@ -111,3 +111,44 @@ Comfy CLI 可用于节点/模型发现、workflow 校验、任务查询和结果
 - [公开仓库内容边界](publication.md)
 - [Comfy CLI 官方说明](https://docs.comfy.org/agent-tools/cli)，查阅于 2026-10-12
 - [Comfy CLI skill 固定版本](https://github.com/Comfy-Org/comfy-cli/blob/79d62b2bc82b8c3e52ddd233b158a390011a0065/comfy_cli/skills/comfy/SKILL.md)，用于核对节点 Schema、任务、recipes 等接口方向
+
+## 2026-10-15 补充：ComfyUI-Workflow-Studio 借鉴清单
+
+状态：**待评估、未实测、未排期**。本节仅记录后续参考方向，不表示已集成或决定安装插件、节点、模型，也不修改现有工具锁或消费项目依赖。
+
+### 定位与参考范围
+
+[ComfyUI-Workflow-Studio](https://github.com/ketle-man/ComfyUI-Workflow-Studio) 是第三方素材/工作流管理、生图表单、批处理、蒙版局部重绘和图层/PSD 工具。其 GenerateUI 指把生图工作流包装为操作面板，不是自动生成游戏 UI 或 UIIR 的工具。它与上文官方 Comfy CLI/skills 接入方向分别评估。
+
+版本参考为 [v0.8.3 发布页](https://github.com/ketle-man/ComfyUI-Workflow-Studio/releases/tag/v0.8.3)（2026-10-13 发布）；记录时上游 README 已有 0.8.4 条目，不将 0.8.3 当作永久最新版本。后续试验应重新核对并固定实际使用版本、依赖及许可。
+
+### 待评估增量
+
+以下复用上文 P0 来源记录、P1 preflight 和 P2 恢复/质量门，不另建一套哈希、批处理或批准机制：
+
+- [ ] **资产库搜索与来源联查**：评估按名称、标签、来源及审核状态查找可复用资产，搜索结果回指统一 provenance ID。复用现有输入/输出 hash，关联输入图、workflow 及版本、模型及版本/可得 hash、seed、完整参数、后处理和批准状态。语义搜索作为可选增强，需要单独建立索引并配置本地或 API 模型，不能假设开箱即用。
+- [ ] **批量候选与图生图 Feeder**：用于卡牌或技能图标草稿，评估一组参数候选及以上一轮选中图继续迭代的交互。每个候选分别保存实际参数、输入/输出、人工选择和拒绝原因；批量生成及 Feeder 都不承诺风格、角色或几何一致性。普通 Batch 同时只变更一种维度，组合扫描需另行规划，不把它当作任意多维搜索。
+- [ ] **可恢复的抠图与蒙版 inpaint 支路**：保留原图、mask、修复前后候选和恢复状态；按 P1 在实际执行目标预检节点、模型及输入输出契约。SAM3/BiRefNet 等能力需要相应扩展与模型，不能假设核心安装已具备。输出须通过透明边缘、浅/深背景和实际小尺寸可读性验收，再决定是否采用。
+- [ ] **资产分层组合与可选 PSD 中间产物**：评估把背景、主体、光效等素材分层组合，便于人工调整。PSD 仅作可选交换/编辑中间产物，不提升为 UIIR 的替代事实来源；导入导出须显式记录栅格化损失。组或调整层可能被压平，变换可能烘焙，剪贴蒙版可能合并，不能承诺无损往返。
+- [ ] **回接既有交付主链路**：选中素材继续进入确定性后处理、manifest、UIIR 绑定、五页设计源与既有验收；Unity 交付仍由消费项目负责。素材工具不替代布局、9-slice、Prefab 组装或 ET 绑定，也不能从整张 UI 自动拆出所有组件、补全遮挡或直接生成可用 Unity Prefab。
+
+### 最小试点候选
+
+后续仅选一个仍在使用、且获准用于试验的技能图标，沿用上文最小试点的来源和质量门：
+
+1. 记录现有批准素材与使用尺寸，固定候选生成输入、workflow、模型及参数。
+2. 批量生成少量候选，保留逐项参数和人工挑选结果；必要时以选中图经 Feeder 继续迭代。
+3. 对选中候选做局部蒙版修复与透明输出，验证中断恢复；保留未经修复的版本供比较。
+4. 进入已有确定性后处理与资产验收，检查小尺寸轮廓、透明边缘、输出 hash 和来源一致性。
+5. 人工批准确切输出后，交由消费项目完成 Unity/运行时验收与交付；未通过的阶段保持待验收。
+
+试点尚未执行。只有来源可追踪、恢复可验证、透明输出及既有质量门通过且人工批准后，才评估是否扩大范围。单个 seed 不保证跨模型版本、节点、硬件或运行环境逐像素复现；应同时保留环境/版本信息和确切输出。插件采用 MIT 不代表模型权重、生成内容或外部 API 可免费或无限制使用，试点前仍需核对许可、费用与素材上传授权。
+
+### 本节参考
+
+- [项目 README](https://github.com/ketle-man/ComfyUI-Workflow-Studio)
+- [v0.8.3 发布记录](https://github.com/ketle-man/ComfyUI-Workflow-Studio/releases/tag/v0.8.3)
+- [GenerateUI 手册第一部分](https://github.com/ketle-man/ComfyUI-Workflow-Studio/blob/main/docs/manual/en/chapters/05_Chapter5_GenerateUI_Part1.md)
+- [更多功能手册](https://github.com/ketle-man/ComfyUI-Workflow-Studio/blob/main/docs/manual/en/chapters/11_Chapter11_More_Features.md)
+
+以上为 2026-10-15 讨论的文档记录；上游能力和限制仍需在实际选定版本上验证。
