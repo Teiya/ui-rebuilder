@@ -220,6 +220,7 @@ UI Rebuilder 不负责：
 - [完整工作流程](docs/workflow.md)
 - [架构与数据边界](docs/architecture.md)
 - [后续迁移计划](docs/migration.md)
+- [受控生成与资产溯源改进计划](docs/controlled-generation-improvements.md)（待实施）
 - [多项目多风格示例](examples/multi-project)
 - [ComfyUI 工作流](workflows/comfyui/README.md)
 - [第三方安装与目录](third_party/README.md)
